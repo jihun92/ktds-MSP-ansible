@@ -2,11 +2,19 @@
 IT 인프라 자동화 테스트용 ansible 소스
 
 ## 1. Playbook 실행 방법(사전에 hosts에 host 정의 필수)
-
 ```shell
  # ansible-playbook -l {HOST_IP or HOST_GROUP_NAME} {PLAYBOOK_NAME} 
- $ ansible-playbook -l DB playbook/db/start_mysqld.yml # 방법1. HOST_IP 
- $ ansible-playbook -l 10.0.1.167 playbook/db/start_mysqld.yml # 방법2. HOST_GROUP_NAME
+ $ ansible-playbook -l 10.0.1.167 playbook/db/start_mysqld.yml # 방법1. HOST_IP 
+ $ ansible-playbook -l DB playbook/db/start_mysqld.yml # 방법2. HOST_GROUP_NAME
+```
+ * Host 파일 내용
+```shell
+$ cat /etc/ansible/hosts 
+[DB]
+10.0.1.167	ansible_user=anaws
+
+[WEB]
+10.0.2.141	ansible_user=anaws
 ```
 
 ## 2. Playbook 시연
