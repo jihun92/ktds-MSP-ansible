@@ -1,0 +1,8 @@
+---
+- become: yes
+  hosts: WEB
+  gather_facts: no
+  tasks:
+  - name: reboot instance
+    reboot:
+      reboot_timeout: 3600

@@ -1,0 +1,70 @@
+---
+- become: yes
+  hosts: WEB
+  gather_facts: no
+  tasks:
+  - name: check before modify 1
+    shell: cat /proc/sys/net/ipv4/tcp_keepalive_time
+    register: net_ipv4_tcp_keepalive_time
+  - name: check before modify 2
+    shell: cat /proc/sys/net/ipv4/tcp_keepalive_intvl
+    register: net_ipv4_tcp_keepalive_intvl
+  - name: check before modify 3
+    shell: cat /proc/sys/net/ipv4/tcp_keepalive_probes
+    register: net_ipv4_tcp_keepalive_probes
+  - name: check before modify 4
+    shell: cat /proc/sys/kernel/panic_on_stackoverflow
+    register: kernel_panic_on_stackoverflow
+  - name: debug
+    debug:
+      msg:
+        - net_ipv4_tcp_keepalive_time : "{{ net_ipv4_tcp_keepalive_time.stdout }}"
+        - net_ipv4_tcp_keepalive_intvl : "{{ net_ipv4_tcp_keepalive_intvl.stdout }}"
+        - net_ipv4_tcp_keepalive_probes : "{{ net_ipv4_tcp_keepalive_probes.stdout }}"
+        - kernel_panic_on_stackoverflow : "{{ kernel_panic_on_stackoverflow.stdout }}"
+  - name: Modify origin /etc/sysctl.conf file
+    lineinfile:
+      path: "/etc/sysctl.conf"
+      regexp: "{{ item.regexp }}"
+      line: "{{ item.line }}"
+    with_items:
+    - { regexp: '^net.ipv4.tcp_keepalive_time', line: 'net.ipv4.tcp_keepalive_time = {{ net_ipv4_tcp_keepalive_time.stdout }}' }
+    - { regexp: '^net.ipv4.tcp_keepalive_intvl', line: 'net.ipv4.tcp_keepalive_intvl = {{ net_ipv4_tcp_keepalive_intvl.stdout }}' }
+    - { regexp: '^net.ipv4.tcp_keepalive_probes', line: 'net.ipv4.tcp_keepalive_probes = {{ net_ipv4_tcp_keepalive_probes.stdout }}' }
+    - { regexp: '^kernel.panic_on_stackoverflow', line: 'kernel.panic_on_stackoverflow = {{ kernel_panic_on_stackoverflow.stdout }}' }
+    no_log: yes
+  - name: register timestamp
+    shell: date +%Y%m%d%H%M%S
+    register: ts
+  - name: copy origin conf file
+    copy:
+      src: "/etc/sysctl.conf"
+      dest: "/etc/sysctl.conf.{{ ts.stdout }}"
+      owner: root
+      group: root
+      mode: '0644'
+  - name: Modify /etc/sysctl.conf file
+    lineinfile:
+      path: "/etc/sysctl.conf"
+      regexp: "{{ item.regexp }}"
+      line: "{{ item.line }}"
+    with_items:
+    - { regexp: '^net.ipv4.tcp_keepalive_time', line: 'net.ipv4.tcp_keepalive_time = 90' }
+    - { regexp: '^net.ipv4.tcp_keepalive_intvl', line: 'net.ipv4.tcp_keepalive_intvl = 15' }
+    - { regexp: '^net.ipv4.tcp_keepalive_probes', line: 'net.ipv4.tcp_keepalive_probes = 5' }
+    - { regexp: '^kernel.panic_on_stackoverflow', line: 'kernel.panic_on_stackoverflow = 1' }
+  - name: show result
+    shell: cat /etc/sysctl.conf | grep -v ^#
+    register: rs
+    ignore_errors: yes
+  - name: set_fact
+    set_fact:
+      rs_fact: "{{ rs_fact | default([]) + ([ item + '\n' ]) }}"
+    loop: "{{ rs.stdout_lines }}"
+    no_log: yes
+  - name: debug
+    debug:
+      msg: 
+                - "[ OK ] Success modify kernel parameter."
+                - "{{ rs_fact }}"
+

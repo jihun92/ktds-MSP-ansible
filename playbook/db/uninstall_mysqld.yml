@@ -1,0 +1,15 @@
+
+---
+- name: mysqld uninstall
+  hosts: all 
+  become: yes
+  gather_facts: no
+  tasks:
+    - name: Uninstall MYSQL
+      yum:
+        name: mariadb-server #debian: mysql-server
+        state: absent
+
+
+
+

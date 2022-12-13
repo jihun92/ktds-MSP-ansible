@@ -1,0 +1,12 @@
+
+---
+- name: stop mysqld
+  hosts: DB
+  become: yes
+  gather_facts: no
+  tasks:
+    - name: stop mysqld
+      shell: |
+             service mysqld stop
+  
+

@@ -1,0 +1,12 @@
+
+---
+- name: mysqld start
+  hosts: all 
+  become: yes
+  gather_facts: no
+  tasks:
+    - name: start mysqld
+      shell: |
+             service mysqld start
+  
+
