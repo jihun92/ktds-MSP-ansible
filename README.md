@@ -16,8 +16,19 @@ IT 인프라 자동화 테스트용 ansible 소스
 ```shell
 $ cd /home/ec2-user/ktds-MSP-ansible
 ```
+### 2.1 Host 확인
+ * Target Host가 Host 파일에 등록되었는지 확인
+```shell
+$ cat /etc/ansible/hosts 
+[DB]
+10.0.1.167	ansible_user=anaws
 
-### 2.1 DB 
+[WEB]
+10.0.2.141	ansible_user=anaws
+```
+
+### 2.2 DB 
+
  * DB 설치
 ```shell
  $ ansible-playbook -l 10.0.1.167 playbook/db/install_mysqld.yml
@@ -41,7 +52,7 @@ $ cd /home/ec2-user/ktds-MSP-ansible
  $ ansible-playbook -l 10.0.1.167 playbook/db/stop_mysqld.yml
 ```
 
-### 2.2 OS
+### 2.3 OS
 
  * 커널 파라미터 수정
 
