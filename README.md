@@ -18,7 +18,6 @@ $ cd /home/ec2-user/ktds-MSP-ansible
 ```
 
 ### 2.1 DB 
-
  * DB 설치
 ```shell
  $ ansible-playbook -l 10.0.1.167 playbook/db/install_mysqld.yml
@@ -30,13 +29,13 @@ $ cd /home/ec2-user/ktds-MSP-ansible
  $ ansible-playbook -l 10.0.1.167 playbook/db/uninstall_mysqld.yml
 ```
 
- * DB 기동
+ * DB 기동(오류 발생 시 DB설치가 되었는지 확인요망)
 
 ```shell
  $ ansible-playbook -l 10.0.1.167 playbook/db/start_mysqld.yml
 ```
 
- * DB 중지
+ * DB 중지(오류 발생 시 DB설치가 되었는지 확인요망)
 
 ```shell
  $ ansible-playbook -l 10.0.1.167 playbook/db/stop_mysqld.yml
