@@ -27,7 +27,7 @@ $ cd /home/ec2-user/ktds-MSP-ansible
  * DB 삭제
 
 ```shell
- $ ansible-playbook -l 10.0.1.167 playbook/db/stop_mysqld.yml
+ $ ansible-playbook -l 10.0.1.167 playbook/db/uninstall_mysqld.yml
 ```
 
  * DB 기동
@@ -39,7 +39,7 @@ $ cd /home/ec2-user/ktds-MSP-ansible
  * DB 중지
 
 ```shell
- $ ansible-playbook -l 10.0.1.167 playbook/db/uninstall_mysqld.yml
+ $ ansible-playbook -l 10.0.1.167 playbook/db/stop_mysqld.yml
 ```
 
 ### 2.2 OS
