@@ -10,7 +10,8 @@ IT 인프라 자동화 테스트용 ansible 소스
 ```
 
 ## 2. Playbook 시연
-### 2.1 Host 확인
+### 2.1. 사전 체크
+#### 2.1.1 Host 확인
  * Target Host가 Host 파일에 등록되었는지 확인
 ```shell
 $ cat /etc/ansible/hosts 
@@ -21,7 +22,7 @@ $ cat /etc/ansible/hosts
 10.0.2.141	ansible_user=anaws
 ```
 
-### 2.2 프로젝트 디렉토리로 이동
+### 2.1.2. 프로젝트 디렉토리로 이동
 * Playbook 실행 위치는 `/home/ec2-user/ktds-MSP-ansible`
 * `/home/ec2-user/ktds-MSP-ansible` 경로로 이동
 
@@ -29,7 +30,7 @@ $ cat /etc/ansible/hosts
 $ cd /home/ec2-user/ktds-MSP-ansible
 ```
 
-### 2.3 DB 
+### 2.2 DB 
 
  * DB 설치
 ```shell
@@ -54,7 +55,7 @@ $ cd /home/ec2-user/ktds-MSP-ansible
  $ ansible-playbook -l 10.0.1.167 playbook/db/stop_mysqld.yml
 ```
 
-### 2.4 OS
+### 2.3 OS
 
  * 커널 파라미터 수정
 
